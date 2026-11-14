@@ -4,23 +4,23 @@
 
 Pick a place at the lunar south pole and a landing day, and see — in seconds — how much sunlight (power) and direct Earth view (communications) a lander gets, and whether it survives. Then *live* the mission from inside the lander: the real terrain horizon, the Sun and Earth moving across it, battery, countdowns to sunset / Earth-set, alarms, and a "Why?" button that explains every event.
 
-**Live site:** _(GitHub Pages link)_ · English + العربية · works on phones
+**Live site:** https://mahmoud-magdy-ai.github.io/wasl8-lunar/ · English + العربية · works on phones
 
 ## What it does
-- **Plan:** curated sites (NASA Artemis candidate regions, CLPS target Mons Mouton, real landings IM-1, IM-2, Blue Ghost M1, Chandrayaan-3, Apollo 11/15/17 — each with a 'replay the real landing' button) or any point you tap on a LOLA map of the south pole; a year calendar coloured by Sun+Earth availability; best / typical / worst landing day; landing hour (UTC); years 2024–2030; side-by-side comparison of two sites (table + overlaid timeline); highest/average Sun elevation; first sunset and first Earth loss after landing; a table of every sunlight and Earth-contact window; "what if the launch slips ±1/7/30 days"; same-day comparison of all sites; a timeline chart of Sun and Earth elevation vs. the terrain; **CSV export**; a **3D view** of the real LOLA terrain (48 km around the site) lit by the real Sun, with a mission time slider.
+- **Plan:** curated sites (NASA Artemis III candidate regions (incl. Mons Mouton), real landings IM-1, IM-2, Blue Ghost M1, Chandrayaan-3, Apollo 11/15/17 — each with a 'replay the real landing' button) or any point you tap on a LOLA map of the south pole; a year calendar coloured by Sun+Earth availability; best / typical / worst landing day; landing hour (UTC); years 2024–2030; side-by-side comparison of two sites (table + overlaid timeline); highest/average Sun elevation; first sunset and first Earth loss after landing; a table of every sunlight and Earth-contact window; "what if the launch slips ±1/7/30 days"; same-day comparison of all sites; a timeline chart of Sun and Earth elevation vs. the terrain; **CSV export**; a **3D view** of the real LOLA terrain (48 km around the site) lit by the real Sun, with a mission time slider.
 - **Live it:** cockpit view of the real horizon, Sun and Earth (with Earth's true phase), battery with a 20 % safety reserve, power/link gauges, countdowns, ⏭ jump to next event, mission-control audio and haptics.
 - **Report:** how long the lander lasted, battery trace, comparison with the best day, shareable result image.
 
 ## NASA data and how we use it
 | Data | Use |
 |---|---|
-| **LRO LOLA LDEM_75S_240M** (NASA PDS Geosciences) | Terrain horizon: for every 0.25° of azimuth, the highest terrain angle within 200 km, exact spherical geometry (R = 1737.4 km), 2 m panel height (`tools/horizons.py`). A 480 m copy powers in-browser horizons for any tapped point. |
-| **Astronomy Engine + JPL Horizons** | Sun and Earth azimuth/elevation from the lunar surface (Astronomy Engine in the browser, IAU Moon rotation, parallax, libration). Validated against the JPL Horizons API: max difference **0.002°** (`tools/VALIDATION.md`). |
+| **LRO LOLA LDEM_75S_240M** (NASA PDS Geosciences) | Terrain horizon: for every 0.25° of azimuth, the highest terrain angle within 200 km, exact spherical geometry (R = 1737.4 km), 2 m panel height. A 480 m copy powers in-browser horizons for any tapped point. |
+| **Astronomy Engine + JPL Horizons** | Sun and Earth azimuth/elevation from the lunar surface (Astronomy Engine in the browser, IAU Moon rotation, parallax, libration). Validated against the JPL Horizons API: max difference **0.002°**. |
 | **NASA Artemis III candidate regions (Oct 2024)** | Site list. For each region we use the best-lit point (most hours with Sun and Earth together, 2027–2028) within 2 km of the published coordinates; both are shown and the published point can be selected. |
 
 ## Validation
 - Sun & Earth az/el vs JPL Horizons: max difference 0.002°.
-- Terrain horizons vs NASA PGDA 18.6-year average illumination map (LOLA AVGVISIB_85S_060M): correlation 0.98 over 40 points south of 85°S; every never-lit PGDA point is never lit in our model. Details: `tools/VALIDATION.md`.
+- Terrain horizons vs NASA PGDA 18.6-year average illumination map (LOLA AVGVISIB_85S_060M): correlation 0.98 over 40 points south of 85°S; every never-lit PGDA point is never lit in our model.
 
 ## Method
 - Sunlight = fraction of the solar disk (r = 0.267°) above the terrain. Earth in view = Earth's centre above the terrain + a user-set margin (0–10°). No atmosphere → no refraction, no twilight.
@@ -36,8 +36,7 @@ Pick a place at the lunar south pole and a landing day, and see — in seconds �
 240 m terrain smooths small hills (real missions use 5–20 m); no thermal model; no Deep Space Network scheduling; absolute long-term illumination % not yet compared with NASA PGDA maps (relative pattern: correlation 0.98 over 40 points); lander classes are illustrative.
 
 ## Run locally
-Static site, no build step: `python3 -m http.server` in this folder and open `http://localhost:8000`.
-Regenerate horizons: download `LDEM_75S_240M.IMG` from NASA PDS into `../dem/`, then `python3 tools/optimize.py`.
+Static site, no build step and no server code: download this repository, run `python3 -m http.server` in its folder and open `http://localhost:8000`. The NASA terrain is already prepared in `horizons.js`, `dem480.js` and `patches.js` (made offline from LDEM_75S_240M with Python).
 
 ## Sources & credits
 Everything taken from outside the team, with its source and licence. The same list is in the app under **Data & method → Sources & credits**.
@@ -76,8 +75,8 @@ Everything taken from outside the team, with its source and licence. The same li
 ### Notes
 - South-pole map image rendered by us from LOLA; 3D lander is an original generic design (not a copy of any real spacecraft); Earth, Sun and regolith textures are procedural; sounds are synthesized; icons drawn by us; lander power numbers are illustrative assumptions.
 
-## Use of AI
-Code, data processing scripts and texts were developed with the help of Claude (Anthropic), directed and reviewed by the team. All scientific data come from NASA sources listed above. No NASA logos or insignia are used.
+## Use of AI (SI)
+The code in this repository, the data-processing and validation scripts and the texts were written with the help of Claude (Anthropic), a large-language-model assistant, directed, reviewed and tested by the team. The idea is the team's own. All scientific data come from NASA sources listed above. No NASA logos or insignia are used.
 
 ## Team Wasl8
 Kyrollous Ayman Barsoom (lead) · Mahmoud Magdy Mohamed
